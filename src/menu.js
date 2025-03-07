@@ -70,7 +70,7 @@ export class ContextMenu extends Menu {
         //найти название процедуры по наименованию
         const punctesMenu = this.modules.find(m => m.name.trim() === action.trim());
         if (punctesMenu) {
-            //console.log('trigger', module.trigger);
+
             //запустить процедуру
             //module.trigger();
 
