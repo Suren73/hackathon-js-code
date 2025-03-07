@@ -1,1 +1,1 @@
-# Хахатон JS Code 2025
+# Hackaton #1
