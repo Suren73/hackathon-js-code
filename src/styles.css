@@ -40,3 +40,49 @@ body {
 .menu .menu-item:hover {
     background: #343434;
 }
+
+/* Стили для раздела radioPlayer */
+.radioPlayer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ad472b; /* Цвет фона */
+    padding: 30px;
+    border-radius: 10px; /* Скругленные углы */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для эффекта объемности */
+    height: 100px; /* Устанавливаем высоту элемента */
+}
+
+/* Стили для контейнера кнопок */
+.radioButtons {
+    display: flex;
+    gap: 15px; /* Пространство между кнопками */
+}
+
+/* Общие стили для кнопок */
+.radioButton {
+    background-color: transparent; /* Прозрачный фон кнопки */
+    border: 2px solid #ded716; /* Белая рамка вокруг кнопки */
+    border-radius: 5px; /* Скругленные углы кнопки */
+    cursor: pointer; /* Изменение курсора при наведении */
+    padding: 10px; /* Отступы внутри кнопки */
+    transition: transform 0.2s ease-in-out; /* Плавный переход для анимации */
+}
+
+/* Эффект при наведении на кнопку */
+.radioButton:hover {
+    transform: scale(1.2); /* Увеличение размера при наведении */
+}
+
+/* Стили для изображений внутри кнопок */
+.radioButton img {
+    width: 50px; /* Ширина изображения */    
+    height: auto; /* Автоматическая высота для сохранения пропорций */
+}
+
+.radioTitle {
+    color: white; /* Цвет текста заголовка */
+    font-size: 24px; /* Размер шрифта заголовка */
+    margin-bottom: 20px; /* Отступ снизу от заголовка */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Тень для текста */
+}

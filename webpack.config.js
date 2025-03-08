@@ -62,7 +62,37 @@ module.exports = (env, argv) => {
               presets: ['@babel/preset-env']
             }
           }
-        }
+        },
+
+        //добавлено
+        {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'images/',
+              },
+            },
+          ],
+        },
+        // // Правило для обработки аудиофайлов
+        // {
+        //   test: /\.(mp3|wav)$/i,
+        //   use: [
+        //     {
+        //       loader: 'file-loader',
+        //       options: {
+        //         name: '[name].[ext]',
+        //         outputPath: 'audio/',
+        //       },
+        //     },
+        //   ],
+        // },
+
+        //-----
+
       ],
     }
   }
