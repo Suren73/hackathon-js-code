@@ -2,9 +2,9 @@ import './styles.css'
 import { ContextMenu } from './menu'
 import { BackgroundModule } from './modules/background.module'
 
-const contextMenu = new ContextMenu('#menu')
+const contextMenu = new ContextMenu('#menu');
 
-const backgroundModule = new BackgroundModule('background', 'Поменять цвет')
+const backgroundModule = new BackgroundModule('background', 'Поменять цвет фона');
 
-contextMenu.add(backgroundModule)import './index.js'
+contextMenu.add(backgroundModule);
 
