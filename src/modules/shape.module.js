@@ -1,4 +1,5 @@
 import { Module } from '../core/module'
+import { random } from '../utils'
 
 export class ShapeModule extends Module {
 	trigger() {
@@ -36,9 +37,11 @@ export class ShapeModule extends Module {
 	getRandomSize() {
 		const minSize = 50
 		const maxSize = 200
+		const width = random(minSize, maxSize)
+		const height = random(minSize, maxSize)
 
-		const width = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize
-		const height = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize
+		// const width = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize
+		// const height = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize
 
 		return { width, height }
 	}
