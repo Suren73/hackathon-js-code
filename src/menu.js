@@ -4,36 +4,47 @@ import { Module } from './core/module'
 export class ContextMenu extends Menu {
 	constructor(selector) {
 		super(selector)
-		this.items = []
-		document.addEventListener('contextmenu', event => {
-			event.preventDefault()
-			const viewportWidth = window.innerWidth
-			const viewportHeight = window.innerHeight
+		this.modules = []
+		document.addEventListener('contextmenu', this.handlerContextMenu.bind(this))
+		document.addEventListener('click', this.handlerElementMenu.bind(this))
+	}
 
-			let left = event.clientX
-			let top = event.clientY
+	handlerContextMenu(event) {
+		event.preventDefault()
+		const viewportWidth = window.innerWidth
+		const viewportHeight = window.innerHeight
 
-			if (left + this.el.offsetWidth > viewportWidth) {
-				left = viewportWidth - this.el.offsetWidth
-			}
+		let left = event.clientX
+		let top = event.clientY
 
-			if (top + this.el.offsetHeight > viewportHeight) {
-				top = viewportHeight - this.el.offsetHeight
-			}
+		if (left + this.el.offsetWidth > viewportWidth) {
+			left = viewportWidth - this.el.offsetWidth
+		}
 
-			this.el.style.top = `${top}px`
-			this.el.style.left = `${left}px`
+		if (top + this.el.offsetHeight > viewportHeight) {
+			top = viewportHeight - this.el.offsetHeight
+		}
 
-			this.open()
-		})
+		this.el.style.top = `${top}px`
+		this.el.style.left = `${left}px`
 
-		// adjustPosition() {
+		this.open()
+	}
 
-		// }
+	handlerElementMenu(event) {
+		this.clearValue()
+		const { target } = event
+
+		const type = target.dataset.type
+		if (type) {
+			this.modules.forEach(module => {
+				module.type === type ? module.trigger() : null
+			})
+		}
 	}
 
 	open() {
-		if (this.items.length !== 0) {
+		if (this.modules.length !== 0) {
 			this.el.classList.add('open')
 		}
 	}
@@ -44,8 +55,13 @@ export class ContextMenu extends Menu {
 
 	add(module) {
 		if (module instanceof Module) {
-			this.items.push(module.toHTML())
-			this.el.innerHTML = this.items.join('')
+			this.modules.push(module)
+
+			this.el.innerHTML = this.modules.map(module => module.toHTML()).join('')
 		}
+	}
+
+	clearValue() {
+		this.modules.forEach(module => module.defaultValue())
 	}
 }

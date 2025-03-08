@@ -1,15 +1,8 @@
 import { Module } from '../core/module'
 
 export class BackgroundModule extends Module {
-	constructor(type, text) {
-		super(type, text)
-		document.addEventListener('click', event => {
-			const { target } = event
-
-			if (target.dataset.type === 'background') {
-				document.body.style.background = this.getRandomColor()
-			}
-		})
+	trigger() {
+		document.body.style.background = this.getRandomColor()
 	}
 
 	getRandomColor() {
@@ -19,5 +12,8 @@ export class BackgroundModule extends Module {
 		const a = Math.random().toFixed(2)
 		const color = `rgba(${r}, ${g}, ${b}, ${a})`
 		return color
+	}
+	defaultValue() {
+		document.body.style.background = 'inherit'
 	}
 }
