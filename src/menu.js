@@ -62,6 +62,8 @@ export class ContextMenu extends Menu {
 	}
 
 	clearValue() {
-		this.modules.forEach(module => module.defaultValue())
+		this.modules.forEach(module =>
+			module.defaultValue ? module.defaultValue() : null
+		)
 	}
 }

@@ -2,54 +2,61 @@ import { Module } from '../core/module'
 import { getRandomColor, random } from '../utils'
 
 export class ShapeModule extends Module {
+	constructor(type, text) {
+		super(type, text)
+
+		this.currentShape = null
+	}
 	trigger() {
 		this.defaultValue()
-
-		this.figure = document.createElement('div')
-		const color = getRandomColor()
-		const { width, height } = this.getRandomSize()
-		const { left, top } = this.getRandomPosition(width, height)
-		const isCircle = this.getRandomShape()
-
-		this.figure.style.position = 'absolute'
-		this.figure.style.width = `${width}px`
-		this.figure.style.height = `${height}px`
-		this.figure.style.backgroundColor = color
-		this.figure.style.left = `${left}px`
-		this.figure.style.top = `${top}px`
-
-		if (isCircle) {
-			this.figure.style.borderRadius = '50%'
-		}
-
-		document.body.appendChild(this.figure)
+		this.#createNewShape()
 	}
 
-	getRandomSize() {
-		const minSize = 50
-		const maxSize = 200
-		const width = random(minSize, maxSize)
-		const height = random(minSize, maxSize)
-
-		return { width, height }
-	}
-
-	getRandomPosition(width, height) {
-		const maxLeft = Math.max(window.innerWidth - width, 0)
-		const maxTop = Math.max(window.innerHeight - height, 0)
-		const left = Math.floor(Math.random() * maxLeft)
-		const top = Math.floor(Math.random() * maxTop)
-
-		return { left, top }
-	}
-
-	getRandomShape() {
+	#createNewShape() {
+		// Генерация параметров
+		const size = this.#getRandomSize()
+		const position = this.#getRandomPosition(size.width, size.height)
 		const isCircle = Math.random() > 0.5
 
-		return isCircle
+		// Создание элемента
+		this.currentShape = document.createElement('div')
+
+		// Базовые стили
+		Object.assign(this.currentShape.style, {
+			position: 'absolute',
+			width: `${size.width}px`,
+			height: `${size.height}px`,
+			backgroundColor: getRandomColor(),
+			left: `${position.left}px`,
+			top: `${position.top}px`,
+		})
+
+		// Форма
+		if (isCircle) {
+			this.currentShape.style.borderRadius = '50%'
+		}
+
+		document.body.append(this.currentShape)
+	}
+
+	#getRandomSize(min = 50, max = 200) {
+		return {
+			width: random(min, max),
+			height: random(min, max),
+		}
+	}
+
+	#getRandomPosition(width, height) {
+		return {
+			left: random(0, window.innerWidth - width),
+			top: random(0, window.innerHeight - height),
+		}
 	}
 
 	defaultValue() {
-		this.figure ? this.figure.remove() : null
+		if (this.currentShape) {
+			this.currentShape.remove()
+			this.currentShape = null
+		}
 	}
 }

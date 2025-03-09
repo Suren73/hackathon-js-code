@@ -1,25 +1,44 @@
 import { Module } from '../core/module'
 
 export class ClicksModule extends Module {
+	constructor(type, text) {
+		super(type, text)
+
+		this.clickCount = 0
+
+		this.clickHandler = this.clickHandler.bind(this)
+	}
 	trigger() {
-		let clickCount = 0
+		this.resetClickCounter()
+		this.registerClickHandler()
+		this.startTimeOut()
+	}
 
-		const clickHandler = event => {
-			event.stopImmediatePropagation()
-			clickCount++
-		}
-
-		const showStatistics = count => {
-			alert(`За указанное время совершено кликов: ${count}`)
-		}
-
-		document.addEventListener('click', clickHandler, true)
-
+	startTimeOut() {
 		setTimeout(() => {
-			document.removeEventListener('click', clickHandler, true)
-			showStatistics(clickCount)
+			this.unregisterClickHandler()
+			this.showStatistics(this.clickCount)
 		}, 3000)
 	}
 
-	defaultValue() {}
+	resetClickCounter() {
+		this.clickCount = 0
+	}
+
+	registerClickHandler() {
+		document.addEventListener('click', this.clickHandler, true)
+	}
+
+	unregisterClickHandler() {
+		document.removeEventListener('click', this.clickHandler, true)
+	}
+
+	showStatistics(count) {
+		alert(`За указанное время совершено кликов: ${count}`)
+	}
+
+	clickHandler(event) {
+		event.stopImmediatePropagation()
+		this.clickCount++
+	}
 }

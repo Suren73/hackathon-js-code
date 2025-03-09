@@ -1,33 +1,49 @@
 import { Module } from '../core/module'
-import { getRandomMessage, random } from '../utils'
+import { getRandomMessage } from '../utils'
 
 export class MessageModule extends Module {
+	constructor(type, text) {
+		super(type, text)
+		this.config = {
+			corners: [
+				{ top: '20px', left: '20px' },
+				{ top: '20px', right: '20px' },
+				{ bottom: '20px', left: '20px' },
+				{ bottom: '20px', right: '20px' },
+			],
+			displayTime: 3000,
+			className: 'message',
+		}
+	}
 	trigger() {
-		// Создаем элемент сообщения
-		const message = document.createElement('div')
-		message.className = 'message'
-		message.textContent = getRandomMessage()
-
-		// Выбираем случайный угол
-		const corners = [
-			{ top: '20px', left: '20px' }, // верхний-левый
-			{ top: '20px', right: '20px' }, // верхний-правый
-			{ bottom: '20px', left: '20px' }, // нижний-левый
-			{ bottom: '20px', right: '20px' }, // нижний-правый
-		]
-
-		// Применяем случайное позиционирование
-		const position = corners[random(0, corners.length)]
-		Object.assign(message.style, position)
-
-		// Добавляем сообщение на страницу
-		document.body.appendChild(message)
-
-		// Удаляем сообщение через 3 секунды
-		setTimeout(() => {
-			message.remove()
-		}, 3000)
+		const element = this.createMessageElement()
+		this.applyRandomPosition(element)
+		this.showMessage(element)
+		this.scheduleRemoval(element)
 	}
 
-	defaultValue() {}
+	createMessageElement() {
+		const element = document.createElement('div')
+		element.className = this.config.className
+		element.textContent = getRandomMessage()
+		return element
+	}
+
+	applyRandomPosition(element) {
+		const position =
+			this.config.corners[
+				Math.floor(Math.random() * this.config.corners.length)
+			]
+		Object.assign(element.style, position)
+	}
+
+	showMessage(element) {
+		document.body.appendChild(element)
+	}
+
+	scheduleRemoval(element) {
+		setTimeout(() => {
+			element.remove()
+		}, this.config.displayTime)
+	}
 }
