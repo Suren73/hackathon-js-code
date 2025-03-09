@@ -1,12 +1,12 @@
 import { Module } from '../core/module'
-import { random } from '../utils'
+import { getRandomColor, random } from '../utils'
 
 export class ShapeModule extends Module {
 	trigger() {
 		this.defaultValue()
 
 		this.figure = document.createElement('div')
-		const color = this.getRandomColor()
+		const color = getRandomColor()
 		const { width, height } = this.getRandomSize()
 		const { left, top } = this.getRandomPosition(width, height)
 		const isCircle = this.getRandomShape()
@@ -25,23 +25,11 @@ export class ShapeModule extends Module {
 		document.body.appendChild(this.figure)
 	}
 
-	getRandomColor() {
-		const r = Math.floor(Math.random() * 256)
-		const g = Math.floor(Math.random() * 256)
-		const b = Math.floor(Math.random() * 256)
-		const a = Math.random().toFixed(2)
-		const color = `rgba(${r}, ${g}, ${b}, ${a})`
-		return color
-	}
-
 	getRandomSize() {
 		const minSize = 50
 		const maxSize = 200
 		const width = random(minSize, maxSize)
 		const height = random(minSize, maxSize)
-
-		// const width = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize
-		// const height = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize
 
 		return { width, height }
 	}
